@@ -84,6 +84,9 @@ def pack_receive(dev, sample_count):
 def run(dev, sample_count, sample_rate):
 	delay, sr = calc_delay(sample_rate)
 	print 'delay=%d, sr=%d' % (delay, sr)
+	
+	if not delay or not sr:
+		return
 
 	send_start(dev, delay, sr)
 	
@@ -95,16 +98,14 @@ def main():
 	dev = usb.core.find(idVendor=0x0925, idProduct=0x3881)
 	if dev is None:
 		raise ValueError('Device not found')
-	
-	#print dev
-	#return
-
+	print dev
+	return
 	#dev.set_configuration()
 	#cfg = dev.get_active_configuration()
 
-	if not dev.iManufacturer and not dev.iProduct:
-		fw_load(dev, fw_path)
+	#if not dev.iManufacturer and not dev.iProduct:
+		#fw_load(dev, fw_path)
 		
-	run(dev, 100, 20000)
+	run(dev, 100, 1000000)
 	
 main()
